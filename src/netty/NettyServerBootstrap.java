@@ -46,7 +46,7 @@ public class NettyServerBootstrap {
 		});
 		ChannelFuture f = bootstrap.bind(port).sync();
 		if (f.isSuccess()) {
-			System.out.println("netty server start---------------");
+			System.out.println("netty server start success!");
 		}
 	}
 
