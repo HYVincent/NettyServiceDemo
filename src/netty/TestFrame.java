@@ -43,7 +43,7 @@ public class TestFrame extends JFrame {
             Thread t2 = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    PushServer.push();
+                    PushServer.push("12345");
                 }
             });
             t2.start();

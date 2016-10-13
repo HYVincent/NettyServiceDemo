@@ -20,10 +20,11 @@ public class PushServer {
         }
     }
 
-    public static void push(){
-        SocketChannel channel = (SocketChannel) NettyChannelMap.get("001");
+    public static void push(String phoneNum){
+        SocketChannel channel = (SocketChannel) NettyChannelMap.get(phoneNum);
         if (channel != null) {
             PushMsg pushMsg = new PushMsg();
+            pushMsg.setPhoneNum(phoneNum);
             pushMsg.setTitle("这是标题。");
             pushMsg.setContent("这是内容。");
             channel.writeAndFlush(pushMsg);

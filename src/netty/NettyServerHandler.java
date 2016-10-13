@@ -6,6 +6,7 @@ import com.shangyi.netty.module.BaseMsg;
 import com.shangyi.netty.module.LoginMsg;
 import com.shangyi.netty.module.MsgType;
 import com.shangyi.netty.module.PingMsg;
+import com.shangyi.netty.module.PushMsg;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -37,11 +38,11 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
             LoginMsg loginMsg = (LoginMsg) baseMsg;
             if (isLogin(loginMsg)) {
                 //登录成功,把channel存到服务端的map中
-                NettyChannelMap.add(loginMsg.getClientId(), (SocketChannel) channelHandlerContext.channel());
-                System.out.println("client" + loginMsg.getClientId() + " 登录成功");
+                NettyChannelMap.add(loginMsg.getPhoneNum(), (SocketChannel) channelHandlerContext.channel());
+                System.out.println("client" + loginMsg.getPhoneNum() + " 登录成功");
             }
         } else {
-            if (NettyChannelMap.get(baseMsg.getClientId()) == null) {
+            if (NettyChannelMap.get(baseMsg.getPhoneNum()) == null) {
                 //说明未登录，或者连接断了，服务器向客户端发起登录请求，让客户端重新登录
                 LoginMsg loginMsg = new LoginMsg();
                 channelHandlerContext.channel().writeAndFlush(loginMsg);
@@ -51,13 +52,13 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
             case PING:
                 PingMsg pingMsg = (PingMsg) baseMsg;
                 PingMsg replyPing = new PingMsg();
-                NettyChannelMap.get(pingMsg.getClientId()).writeAndFlush(replyPing);
+                NettyChannelMap.get(pingMsg.getPhoneNum()).writeAndFlush(replyPing);
                 System.out.println("收到PING类型" 
                 		+ new Date());
                 break;
-            case LOGIN:
-                break;
             case PUSH:
+            	PushMsg pushMsg=(PushMsg)baseMsg;
+            	System.out.println("客户端"+pushMsg.getPhoneNum()+":"+pushMsg.getContent());
                 break;
             default:
                 System.out.println("default。。");
