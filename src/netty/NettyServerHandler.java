@@ -40,6 +40,14 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 //登录成功,把channel存到服务端的map中
                 NettyChannelMap.add(loginMsg.getPhoneNum(), (SocketChannel) channelHandlerContext.channel());
                 System.out.println("client：" + loginMsg.getPhoneNum() + " 登录成功");
+                new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						PushServer.push(loginMsg.getPhoneNum(),"成功登陆服务器");
+					}
+				}).start();
             }
         } else {
             if (NettyChannelMap.get(baseMsg.getPhoneNum()) == null) {

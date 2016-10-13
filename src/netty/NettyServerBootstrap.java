@@ -47,6 +47,8 @@ public class NettyServerBootstrap {
 		ChannelFuture f = bootstrap.bind(port).sync();
 		if (f.isSuccess()) {
 			System.out.println("netty server start success!");
+		}else{
+			System.out.println("netty service start error,please check code!");
 		}
 	}
 

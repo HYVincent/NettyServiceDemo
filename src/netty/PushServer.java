@@ -20,13 +20,13 @@ public class PushServer {
         }
     }
 
-    public static void push(String phoneNum){
+    public static void push(String phoneNum,String content){
         SocketChannel channel = (SocketChannel) NettyChannelMap.get(phoneNum);
         if (channel != null) {
             PushMsg pushMsg = new PushMsg();
             pushMsg.setPhoneNum(phoneNum);
             pushMsg.setTitle(phoneNum);
-            pushMsg.setContent("来自Service的Msg");
+            pushMsg.setContent(content);
             channel.writeAndFlush(pushMsg);
         }
     }
