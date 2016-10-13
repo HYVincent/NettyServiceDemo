@@ -25,8 +25,8 @@ public class PushServer {
         if (channel != null) {
             PushMsg pushMsg = new PushMsg();
             pushMsg.setPhoneNum(phoneNum);
-            pushMsg.setTitle("这是标题。");
-            pushMsg.setContent("这是内容。");
+            pushMsg.setTitle(phoneNum);
+            pushMsg.setContent("来自Service的Msg");
             channel.writeAndFlush(pushMsg);
         }
     }
